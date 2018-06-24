@@ -4,8 +4,13 @@ import Header from './Header';
 import GameBoard from './GameBoard';
 import Scoreboard from './Scoreborad';
 
-const AppWrapper = styled.div`
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 10px;
+  width: 100vw;
+  height: 100vh;
 `;
 
 class App extends React.Component {
@@ -29,11 +34,11 @@ class App extends React.Component {
     const { score } = this.state;
 
     return (
-      <AppWrapper>
+      <Wrapper>
         <Header />
         <GameBoard onGameEnd={this.onGameEnd} />
         <Scoreboard score={score} />
-      </AppWrapper>
+      </Wrapper>
     );
   }
 }

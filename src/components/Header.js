@@ -8,13 +8,12 @@ const Title = styled.div`
 `;
 
 const Link = styled.a`
-  padding: 0 5px;
   color: #8d8d8d;
 `;
 
 const Header = () => (
   <Title>
-    Connect Four by <Link href="https://github.com/lankovova">lankovova</Link>
+    Connect Four by&nbsp;<Link href="https://github.com/lankovova">lankovova</Link>
   </Title>
 );
 

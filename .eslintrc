@@ -15,9 +15,12 @@
     "react/jsx-filename-extension": ["off"],
     "react/jsx-one-expression-per-line": ["off"],
     "react/prefer-stateless-function": ["warn"],
+    "react/no-array-index-key": ["off"],
     "jsx-a11y/click-events-have-key-events": ["off"],
     "class-methods-use-this" : ["off"],
-    "no-return-assign": ["off"]
+    "no-return-assign": ["off"],
+    "import/prefer-default-export": ["off"],
+    "consistent-return": ["off"]
   },
   "env": {
     "browser": true
