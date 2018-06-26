@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Header from './Header';
 import GameBoard from './GameBoard';
 import Scoreboard from './Scoreborad';
+import { P1, P2 } from '../constansts';
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,7 +25,16 @@ class App extends React.Component {
   onGameEnd = (winner) => {
     this.setState(({ score }) => {
       const newScore = { ...score };
-      newScore[winner] += 1;
+
+      switch (winner) {
+        case P1:
+          newScore.player1 += 1;
+          break;
+        case P2:
+          newScore.player1 += 1;
+          break;
+        default: throw new Error('Unknown player value');
+      }
 
       return { score: newScore };
     });

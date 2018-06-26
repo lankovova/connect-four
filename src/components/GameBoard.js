@@ -1,12 +1,13 @@
 import React from 'react';
-import styled from 'styled-components';
-import { getLastNullishValueIndex } from '../utils';
-
-const P1 = 1;
-const P2 = 2;
-
-const COLS = 7;
-const ROWS = 6;
+import PropTypes from 'prop-types';
+import styled, { keyframes } from 'styled-components';
+import {
+  getLastNullishValueIndex,
+  isThereWinCondition,
+} from '../utils';
+import {
+  ROWS, COLS, P1, P2,
+} from '../constansts';
 
 // TODO: Make it flexible for case when width is less then height
 // const MIN_DIMENSION = Math.min(
@@ -23,10 +24,12 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
+const Container = styled.div``;
+
 const StatusBar = styled.div`
   display: flex;
-  justify-content: center;
-  padding: 5px 0;
+  justify-content: space-between;
+  padding: 5px 0; /* TODO: Use em and rem intead of px */
 `;
 
 const ColumnsWrapper = styled.div`
@@ -40,9 +43,10 @@ const ColumnsWrapper = styled.div`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
+
   &:hover {
-    cursor: pointer;
-    background: lightgrey;
+    cursor: ${({ isPlayable }) => isPlayable && 'pointer'};
+    background: ${({ isPlayable }) => isPlayable && 'lightgrey'};
   }
 `;
 
@@ -61,11 +65,44 @@ const Cell = styled.div`
   }};
 `;
 
+const blink = keyframes`
+  0% { opacity: 1; }
+  50% { opacity: 0.2; }
+  100% { opacity: 1; }
+`;
+
+const ResetBtn = styled.div`
+  background: white;
+  border: 1px solid #b328fd;
+  border-radius: 10px;
+  color: black;
+  cursor: pointer;
+  padding: 0 15px;
+  transition: all 200ms linear;
+
+  animation: ${({ isPlayable }) => !isPlayable && blink} 1000ms ease-in-out infinite;
+
+  &:hover {
+    background: #b328fd;
+    color: white;
+    animation: auto;
+  }
+`;
+
 class GameBoard extends React.Component {
-  state = {
-    board: Array.from(Array(COLS), () => new Array(ROWS).fill(0)),
-    currentPlayer: P1,
-  };
+  state = this.getInitialBoardState();
+
+  getInitialBoardState() {
+    return {
+      board: Array.from(Array(COLS), () => new Array(ROWS).fill(0)),
+      currentPlayer: P1,
+      isPlayable: true,
+    };
+  }
+
+  resetBoard = () => {
+    this.setState(this.getInitialBoardState());
+  }
 
   makeTurn(colIndex) {
     this.setState(({ board, currentPlayer }) => {
@@ -79,40 +116,74 @@ class GameBoard extends React.Component {
       // Place new chip
       currentCol[newChipColumnIndex] = currentPlayer;
 
+      const isThereWin = isThereWinCondition(board, {
+        colId: colIndex,
+        rowId: newChipColumnIndex,
+      });
+
+      if (isThereWin) {
+        console.log('win condition for player', currentPlayer);
+
+        if (this.props.onGameEnd) {
+          this.props.onGameEnd(currentPlayer);
+        }
+
+        return {
+          board,
+          currentPlayer: (currentPlayer === P1) ? P2 : P1,
+          isPlayable: false,
+        };
+      }
+
       return {
         board,
         currentPlayer: (currentPlayer === P1) ? P2 : P1,
       };
-    }, () => {
-      // TODO: Check for win conditions
-      // if (won) this.props.onGameEnd(p1 || p2);
     });
   }
 
   render() {
-    const { board, currentPlayer } = this.state;
+    const { board, currentPlayer, isPlayable } = this.state;
     const currentPlayerTitle = currentPlayer === P1 ? 'First' : 'Second';
 
     return (
       <Wrapper>
-        <StatusBar><b>{currentPlayerTitle}</b>&nbsp;player&#39;s turn</StatusBar>
-        <ColumnsWrapper>
-          {
-            board.map((col, colIndex) => (
-              <Column
-                key={colIndex}
-                onClick={() => this.makeTurn(colIndex)}
-              >
-                {
-                  col.map((cell, cellIndex) => <Cell key={cellIndex} value={cell} />)
-                }
-              </Column>
-            ))
-          }
-        </ColumnsWrapper>
+        <Container>
+          <StatusBar>
+            {/* TODO: Add winner's text */}
+            <span>
+              <b>{currentPlayerTitle}</b>&nbsp;player&#39;s turn&nbsp;
+            </span>
+            <ResetBtn
+              onClick={this.resetBoard}
+              isPlayable={isPlayable}
+            >
+              Reset board
+            </ResetBtn>
+          </StatusBar>
+          <ColumnsWrapper>
+            {
+              board.map((col, colIndex) => (
+                <Column
+                  key={colIndex}
+                  isPlayable={isPlayable}
+                  onClick={() => isPlayable && this.makeTurn(colIndex)}
+                >
+                  {
+                    col.map((cell, cellIndex) => <Cell key={cellIndex} value={cell} />)
+                  }
+                </Column>
+              ))
+            }
+          </ColumnsWrapper>
+        </Container>
       </Wrapper>
     );
   }
 }
+
+GameBoard.propTypes = {
+  onGameEnd: PropTypes.func,
+};
 
 export default GameBoard;
