@@ -8,7 +8,7 @@ const Title = styled.div`
 `;
 
 const Link = styled.a`
-  color: #8d8d8d;
+  color: #6813f9;
 `;
 
 const Header = () => (

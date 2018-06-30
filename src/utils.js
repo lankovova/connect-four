@@ -1,44 +1,51 @@
-export const getLastNullishValueIndex = (arr) => {
-  const index = arr.findIndex(el => el !== 0);
+import { EMPTY_CELL } from './constansts';
 
-  if (index === -1) return arr.length - 1;
+export const isCellEmpty = cell => cell === EMPTY_CELL;
+export const isCellNotEmpty = cell => !isCellEmpty(cell);
+
+export const isBoardHasEmptyCells = board => board.some(col => col.some(isCellEmpty));
+
+export const getFirstEmptyCellIndexInCol = (col) => {
+  const index = col.findIndex(isCellNotEmpty);
+
+  if (index === -1) return col.length - 1;
   return index - 1;
 };
 
-export const isThereFiveInARow = (row) => {
-  const lastInARow = row.reduce((inARow, currentChip) => {
-    if (
-      inARow.count === 5
-      || currentChip === 0
-    ) {
-      return inARow;
+export const isThereFourInARow = (row) => {
+  let counter = 0;
+  let cellValueInARow;
+
+  for (const cell of row) {
+    if (isCellEmpty(cell)) {
+      counter = 0;
+      continue;
     }
 
-    if (inARow.chip === currentChip) {
-      return {
-        chip: currentChip,
-        count: inARow.count + 1,
-      };
+    if (cellValueInARow === cell) {
+      counter += 1;
+    } else {
+      cellValueInARow = cell;
+      counter = 1;
     }
 
-    return {
-      chip: currentChip,
-      count: 1,
-    };
-  }, {});
+    if (counter === 4) {
+      return true;
+    }
+  }
 
-  return lastInARow.count === 5;
+  return false;
 };
 
 export const isThereWinCondition = (board, { colId, rowId }) => {
-  // Check in row
-  if (isThereFiveInARow(board[colId])) {
+  // Check in col
+  if (isThereFourInARow(board[colId])) {
     return true;
   }
 
-  // Check in cols
+  // Check in rows
   const rowFromCols = board.map(col => col[rowId]);
-  if (isThereFiveInARow(rowFromCols)) {
+  if (isThereFourInARow(rowFromCols)) {
     return true;
   }
 
