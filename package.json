@@ -1,7 +1,7 @@
 {
   "name": "connect-four",
   "version": "1.0.0",
-  "description": "",
+  "description": "Classic connect-four game written in js",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --mode development --open",
@@ -9,8 +9,12 @@
     "build-dev": "webpack --mode development",
     "test": "jest"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["connect-four", "game", "web", "js", "react", "styled-components"],
+  "author": {
+    "name": "Lanko Vova",
+    "email": "lanko.vova@gmail.com",
+    "url": "https://github.com/lankovova"
+  },
   "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
     "prop-types": "^15.6.2",
