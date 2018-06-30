@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
-  getFirstEmptyCellIndexInCol,
+  getNextTurnChipIndexInCol,
   isThereWinCondition,
   isBoardHasEmptyCells,
 } from '../utils';
@@ -115,7 +115,7 @@ class GameBoard extends React.Component {
 
     this.setState(({ board, currentPlayer }) => {
       const currentCol = board[colIndex];
-      const newChipColumnIndex = getFirstEmptyCellIndexInCol(currentCol);
+      const newChipColumnIndex = getNextTurnChipIndexInCol(currentCol);
 
       if (newChipColumnIndex === -1) {
         return;

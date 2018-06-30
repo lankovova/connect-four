@@ -1,11 +1,12 @@
 import { EMPTY_CELL } from './constansts';
 
 export const isCellEmpty = cell => cell === EMPTY_CELL;
+
 export const isCellNotEmpty = cell => !isCellEmpty(cell);
 
 export const isBoardHasEmptyCells = board => board.some(col => col.some(isCellEmpty));
 
-export const getFirstEmptyCellIndexInCol = (col) => {
+export const getNextTurnChipIndexInCol = (col) => {
   const index = col.findIndex(isCellNotEmpty);
 
   if (index === -1) return col.length - 1;
