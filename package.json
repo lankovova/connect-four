@@ -1,7 +1,7 @@
 {
   "name": "connect-four",
   "version": "1.0.0",
-  "description": "Classic connect-four game written in JavaScript",
+  "description": "Classic connect-four game written in ReactJS",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --mode development --open",
