@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from './Header';
-import GameBoard from './GameBoard';
+import MainPanel from './MainPanel';
 import Scoreboard from './Scoreborad';
 import { P1, P2 } from '../constansts';
 
@@ -46,7 +46,7 @@ class App extends React.Component {
     return (
       <Wrapper>
         <Header />
-        <GameBoard onGameEnd={this.onGameEnd} />
+        <MainPanel onGameEnd={this.onGameEnd} />
         <Scoreboard score={score} />
       </Wrapper>
     );

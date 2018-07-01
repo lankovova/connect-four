@@ -25,7 +25,8 @@
     "consistent-return": ["off"],
     "no-restricted-syntax": ["off"],
     "no-continue": ["off"],
-    "no-confusing-arrow": ["off"]
+    "no-confusing-arrow": ["off"],
+    "object-curly-newline": ["off"]
   },
   "env": {
     "browser": true,
