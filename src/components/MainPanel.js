@@ -25,6 +25,7 @@ class MainPanel extends React.Component {
       board: Array.from(new Array(COLS), () => new Array(ROWS).fill(EMPTY_CELL)),
       currentPlayer: P1,
       isPlayable: true,
+      winner: null,
     };
   }
 
@@ -59,6 +60,7 @@ class MainPanel extends React.Component {
         return {
           board,
           currentPlayer: (currentPlayer === P1) ? P2 : P1,
+          winner: currentPlayer,
           isPlayable: false,
         };
       }
@@ -79,7 +81,7 @@ class MainPanel extends React.Component {
   }
 
   render() {
-    const { board, currentPlayer, isPlayable } = this.state;
+    const { board, currentPlayer, winner, isPlayable } = this.state;
 
     return (
       <Wrapper>
@@ -87,6 +89,7 @@ class MainPanel extends React.Component {
           <StatusBar
             currentPlayer={currentPlayer}
             isPlayable={isPlayable}
+            winner={winner}
             onResetClick={this.resetBoard}
           />
           <Board

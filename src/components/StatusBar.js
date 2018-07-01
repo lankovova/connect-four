@@ -28,15 +28,22 @@ const ResetBtn = styled.div`
   }
 `;
 
-const StatusBar = ({ currentPlayer, isPlayable, onResetClick }) => {
-  const currentPlayerTitle = (currentPlayer === P1) ? 'First' : 'Second';
+const getPlayerViewName = playerValue => playerValue === P1 ? 'First' : 'Second';
 
+const StatusBar = ({ currentPlayer, isPlayable, winner, onResetClick }) => {
   return (
     <Wrapper>
-      {/* TODO: Add winner's text */}
-      <span>
-        <b>{currentPlayerTitle}</b>&nbsp;player&#39;s turn&nbsp;
-      </span>
+      {
+        (winner !== null) ? (
+          <span>
+            <b>{getPlayerViewName(winner)}</b>&nbsp;player won!
+          </span>
+        ) : (
+          <span>
+            <b>{getPlayerViewName(currentPlayer)}</b>&nbsp;player&#39;s turn&nbsp;
+          </span>
+        )
+      }
       <ResetBtn
         onClick={onResetClick}
         isPlayable={isPlayable}
@@ -50,6 +57,7 @@ const StatusBar = ({ currentPlayer, isPlayable, onResetClick }) => {
 StatusBar.propTypes = {
   currentPlayer: PropTypes.oneOf([P1, P2]).isRequired,
   isPlayable: PropTypes.bool.isRequired,
+  winner: PropTypes.oneOf([P1, P2]),
   onResetClick: PropTypes.func,
 };
 
