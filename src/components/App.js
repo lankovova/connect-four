@@ -31,7 +31,7 @@ class App extends React.Component {
           newScore.player1 += 1;
           break;
         case P2:
-          newScore.player1 += 1;
+          newScore.player2 += 1;
           break;
         default: throw new Error('Unknown player value');
       }
