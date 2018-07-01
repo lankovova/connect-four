@@ -1,5 +1,5 @@
 # connect-four
-Classic connect-four game written in JavaScript
+Classic connect-four game written in ReactJS
 
 ## Install dependencies
 `npm i`
